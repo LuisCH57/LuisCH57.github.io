@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <!-- Configuración básica de la página (no se ve, pero el navegador la necesita) -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sebastián Chávez | Ingeniería de Sistemas</title>
+  <meta name="description" content="Portafolio de Sebastián Chávez, estudiante de Ingeniería de Sistemas en la UPC.">
+
+  <!-- Tipografía IBM Plex Sans desde Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Conecta este HTML con el archivo de estilos -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ========== ENCABEZADO (menú superior) ========== -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#inicio" class="logo">Sebastián Chávez</a>
+      <nav aria-label="Navegación principal">
+        <ul class="nav-list">
+          <li><a href="#sobre-mi">Sobre mí</a></li>
+          <li><a href="#proyectos">Proyectos</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ========== PRESENTACIÓN ========== -->
+    <section id="inicio" class="hero">
+      <div class="container">
+        <h1>Hola, soy Sebastián Chávez.</h1>
+        <p class="hero-text">
+          Estudio Ingeniería de Sistemas en la UPC y egreso en 2027-2.
+          Estoy aprendiendo a construir sistemas web completos, un proyecto a la vez,
+          y aquí puedes seguir mi avance.
+        </p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#proyectos">Ver mis proyectos</a>
+          <a class="button button-secondary" href="https://github.com/LuisCH57" target="_blank" rel="noopener">Ver mi GitHub</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SOBRE MÍ ========== -->
+    <section id="sobre-mi" class="section">
+      <div class="container about-grid">
+        <div>
+          <h2>Sobre mí</h2>
+          <p>
+            Soy estudiante de Ingeniería de Sistemas en la Universidad Peruana de Ciencias Aplicadas.
+            En la universidad he programado en Java, Python, C/C++ y JavaScript, y ahora estoy llevando
+            esa base a proyectos reales: sistemas web que se puedan usar, publicar y mantener.
+          </p>
+          <p>
+            Me interesa entender cómo funciona cada parte de un sistema, desde la interfaz hasta la
+            base de datos, y documentar lo que aprendo en el camino.
+          </p>
+        </div>
+
+        <div class="skills">
+          <h3>Lenguajes que he usado en la universidad</h3>
+          <ul class="tag-list">
+            <li>Java</li>
+            <li>Python</li>
+            <li>C / C++</li>
+            <li>JavaScript</li>
+          </ul>
+
+          <h3>Aprendiendo ahora</h3>
+          <ul class="tag-list tag-list-learning">
+            <li>HTML</li>
+            <li>CSS</li>
+            <li>Git y GitHub</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== RUTA DE PROYECTOS ========== -->
+    <section id="proyectos" class="section section-alt">
+      <div class="container">
+        <h2>Ruta de proyectos</h2>
+        <p class="section-intro">
+          Cada proyecto suma algo nuevo al anterior. Los iré publicando aquí a medida que los termine.
+        </p>
+
+        <ol class="roadmap">
+          <li class="project project-done">
+            <span class="project-number">1</span>
+            <div class="project-header">
+              <h3>Portafolio personal</h3>
+              <span class="status">Publicado</span>
+            </div>
+            <p>Este sitio. Mi primera página publicada en internet, versionada con Git desde el primer día.</p>
+            <p class="tech"><strong>Tecnologías:</strong> HTML, CSS, Git y GitHub Pages</p>
+          </li>
+
+          <li class="project project-next">
+            <span class="project-number">2</span>
+            <div class="project-header">
+              <h3>Control de gastos personales</h3>
+              <span class="status">Siguiente</span>
+            </div>
+            <p>Registrar gastos en soles por categoría, ver totales y convertirlos a otras monedas.</p>
+            <p class="tech"><strong>Tecnologías:</strong> JavaScript, localStorage y una API pública</p>
+          </li>
+
+          <li class="project">
+            <span class="project-number">3</span>
+            <div class="project-header">
+              <h3>Planificador de horarios universitarios</h3>
+              <span class="status">Planificado</span>
+            </div>
+            <p>Armar el horario semanal y detectar automáticamente los cruces entre cursos.</p>
+            <p class="tech"><strong>Tecnologías:</strong> React</p>
+          </li>
+
+          <li class="project">
+            <span class="project-number">4</span>
+            <div class="project-header">
+              <h3>Sistema de inventario y ventas para bodegas</h3>
+              <span class="status">Planificado</span>
+            </div>
+            <p>Controlar el stock, registrar ventas y ver qué productos se están agotando.</p>
+            <p class="tech"><strong>Tecnologías:</strong> React, Node.js, Express y PostgreSQL</p>
+          </li>
+
+          <li class="project">
+            <span class="project-number">5</span>
+            <div class="project-header">
+              <h3>Sistema de reservas con usuarios y roles</h3>
+              <span class="status">Planificado</span>
+            </div>
+            <p>Los clientes reservan un horario y el administrador gestiona la disponibilidad.</p>
+            <p class="tech"><strong>Tecnologías:</strong> TypeScript, autenticación y pruebas</p>
+          </li>
+
+          <li class="project">
+            <span class="project-number">6</span>
+            <div class="project-header">
+              <h3>Predicción de demanda y reportes automáticos</h3>
+              <span class="status">Planificado</span>
+            </div>
+            <p>Anticipar qué productos reponer a partir del historial de ventas y enviar un reporte semanal.</p>
+            <p class="tech"><strong>Tecnologías:</strong> Python, scikit-learn y GitHub Actions</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ========== CONTACTO ========== -->
+    <section id="contacto" class="section">
+      <div class="container">
+        <h2>Contacto</h2>
+        <p>Busco prácticas pre-profesionales en desarrollo de software. Si quieres conversar, escríbeme.</p>
+        <ul class="contact-list">
+          <li><a href="mailto:s3bastianchavezguerrero@gmail.com">s3bastianchavezguerrero@gmail.com</a></li>
+          <li><a href="https://www.linkedin.com/in/sebastian-chavez-77b7793a2" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://github.com/LuisCH57" target="_blank" rel="noopener">GitHub</a></li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========== PIE DE PÁGINA ========== -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>Hecho con HTML y CSS por Sebastián Chávez, 2026.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
