@@ -1,6 +1,5 @@
 /* ==========================================================
-   1. VARIABLES: colores, fuente y medidas de todo el sitio.
-      Si cambias un valor aquí, cambia en toda la página.
+   1. VARIABLES (la misma paleta de tu portafolio)
    ========================================================== */
 :root {
   --color-bg: #f3f5f8;
@@ -8,11 +7,11 @@
   --color-text: #14213d;
   --color-text-muted: #56627a;
   --color-line: #d5dbe5;
+  --color-input-border: #b8c1d0;
   --color-accent: #0b7a75;
   --color-accent-dark: #09625e;
   --color-accent-soft: #e0f2f1;
-  --color-next: #9a5b00;
-  --color-next-soft: #fdf1dc;
+  --color-danger: #b42318;
 
   --font-main: "IBM Plex Sans", "Segoe UI", Roboto, Arial, sans-serif;
   --max-width: 68rem;
@@ -20,7 +19,7 @@
 }
 
 /* ==========================================================
-   2. BASE: reglas generales para toda la página
+   2. BASE
    ========================================================== */
 *,
 *::before,
@@ -28,60 +27,45 @@
   box-sizing: border-box;
 }
 
-html {
-  /* Evita que el menú fijo tape el título al saltar a una sección */
-  scroll-padding-top: 5rem;
-}
-
-/* Desplazamiento suave, solo si la persona no pidió reducir animaciones */
-@media (prefers-reduced-motion: no-preference) {
-  html {
-    scroll-behavior: smooth;
-  }
+/* Asegura que el atributo hidden (usado desde JavaScript) siempre oculte */
+[hidden] {
+  display: none !important;
 }
 
 body {
   margin: 0;
   font-family: var(--font-main);
-  font-size: 1.0625rem;
-  line-height: 1.6;
+  font-size: 1rem;
+  line-height: 1.5;
   color: var(--color-text);
   background-color: var(--color-bg);
 }
 
 h1,
-h2,
-h3 {
-  margin: 0 0 1rem;
+h2 {
+  margin: 0;
   line-height: 1.2;
 }
 
+h1 {
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  letter-spacing: -0.01em;
+}
+
 h2 {
-  font-size: 1.75rem;
-  font-weight: 700;
-}
-
-h3 {
-  font-size: 1.125rem;
-  font-weight: 600;
-}
-
-p {
-  margin: 0 0 1rem;
-  max-width: 65ch;
+  margin-bottom: 1.25rem;
+  font-size: 1.25rem;
 }
 
 a {
   color: var(--color-accent);
 }
 
-/* Borde visible cuando se navega con el teclado (accesibilidad) */
-a:focus-visible {
+:focus-visible {
   outline: 3px solid var(--color-accent);
-  outline-offset: 3px;
+  outline-offset: 2px;
 }
 
-/* Caja que centra el contenido y limita su ancho */
 .container {
   width: 100%;
   max-width: var(--max-width);
@@ -90,12 +74,9 @@ a:focus-visible {
 }
 
 /* ==========================================================
-   3. ENCABEZADO
+   3. ENCABEZADO Y TOTAL
    ========================================================== */
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 10;
+.app-header {
   background-color: var(--color-surface);
   border-bottom: 1px solid var(--color-line);
 }
@@ -103,293 +84,285 @@ a:focus-visible {
 .header-inner {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
-  gap: 0.5rem 1.5rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  gap: 1.5rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
-.logo {
-  font-weight: 700;
-  color: var(--color-text);
-  text-decoration: none;
+.subtitle {
+  margin: 0.5rem 0 0;
+  color: var(--color-text-muted);
 }
 
-.nav-list {
-  display: flex;
-  gap: 1.25rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
+.total-box {
+  text-align: right;
 }
 
-.nav-list a {
+.total-label {
+  display: block;
+  font-size: 0.875rem;
   font-weight: 500;
   color: var(--color-text-muted);
-  text-decoration: none;
 }
 
-.nav-list a:hover {
+.total-amount {
+  display: block;
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
   color: var(--color-accent);
+  font-variant-numeric: tabular-nums; /* números del mismo ancho */
 }
 
 /* ==========================================================
-   4. PRESENTACIÓN (hero)
+   4. DISTRIBUCIÓN DE PANELES
    ========================================================== */
-.hero {
-  padding: 5rem 0 4rem;
+.layout {
+  display: grid;
+  gap: 1.5rem;
+  padding-top: 2rem;
+  padding-bottom: 3rem;
 }
 
-.hero h1 {
-  max-width: 14ch;
-  font-size: clamp(2.5rem, 7vw, 4.5rem);
-  font-weight: 700;
-  letter-spacing: -0.02em;
+/* En pantallas anchas: dos columnas, y el historial ocupa ambas */
+@media (min-width: 860px) {
+  .layout {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+
+  .panel-wide {
+    grid-column: 1 / -1;
+  }
 }
 
-.hero-text {
-  max-width: 38rem;
-  font-size: 1.25rem;
+.panel {
+  padding: 1.5rem;
+  border: 1px solid var(--color-line);
+  border-radius: 0.75rem;
+  background-color: var(--color-surface);
+}
+
+.panel-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.panel-header h2 {
+  margin: 0;
+}
+
+.count {
+  font-size: 0.9rem;
   color: var(--color-text-muted);
 }
 
-.hero-actions {
+.empty {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+/* ==========================================================
+   5. FORMULARIO
+   ========================================================== */
+.field {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.375rem;
+  margin-bottom: 1rem;
+}
+
+.field-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-top: 2rem;
+  gap: 0 1rem;
+}
+
+.field-row .field {
+  min-width: 9rem;
+}
+
+label {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--radius);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+}
+
+input:focus,
+select:focus {
+  border-color: var(--color-accent);
+  outline: 3px solid var(--color-accent-soft);
+  outline-offset: 0;
+}
+
+.form-error {
+  min-height: 1.5rem;
+  margin: 0 0 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-danger);
 }
 
 .button {
-  display: inline-block;
+  width: 100%;
   padding: 0.75rem 1.25rem;
-  border: 2px solid transparent;
+  border: none;
   border-radius: var(--radius);
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.button-primary {
   background-color: var(--color-accent);
   color: #ffffff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
 }
 
-.button-primary:hover {
+.button:hover {
   background-color: var(--color-accent-dark);
 }
 
-.button-secondary {
-  border-color: var(--color-text);
-  color: var(--color-text);
-}
-
-.button-secondary:hover {
-  background-color: var(--color-text);
-  color: var(--color-surface);
-}
-
 /* ==========================================================
-   5. SECCIONES
+   6. RESUMEN POR CATEGORÍA (barras)
    ========================================================== */
-.section {
-  padding: 4rem 0;
-}
-
-.section-alt {
-  background-color: var(--color-surface);
-  border-top: 1px solid var(--color-line);
-  border-bottom: 1px solid var(--color-line);
-}
-
-.section-intro {
-  margin-bottom: 2.5rem;
-  color: var(--color-text-muted);
-}
-
-/* ==========================================================
-   6. SOBRE MÍ Y HABILIDADES
-   ========================================================== */
-.about-grid {
-  display: grid;
-  gap: 2.5rem;
-}
-
-/* En pantallas de 768px o más: dos columnas */
-@media (min-width: 768px) {
-  .about-grid {
-    grid-template-columns: 3fr 2fr;
-  }
-}
-
-.skills h3 {
-  margin-top: 1.5rem;
-  font-size: 1rem;
-}
-
-.skills h3:first-child {
-  margin-top: 0;
-}
-
-.tag-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+.category-summary,
+.expense-list {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.tag-list li {
-  padding: 0.25rem 0.75rem;
-  border: 1px solid var(--color-line);
-  border-radius: 999px;
-  background-color: var(--color-surface);
+.summary-item + .summary-item {
+  margin-top: 1rem;
+}
+
+.summary-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.375rem;
   font-size: 0.95rem;
 }
 
-.tag-list-learning li {
-  border-color: var(--color-accent);
-  background-color: var(--color-accent-soft);
-  color: var(--color-accent);
-}
-
-/* ==========================================================
-   7. RUTA DE PROYECTOS (línea vertical con números)
-   ========================================================== */
-.roadmap {
-  margin: 0 0 0 1.25rem;
-  padding: 0 0 0 2.5rem;
-  border-left: 2px solid var(--color-line); /* la línea vertical */
-  list-style: none;
-}
-
-.project {
-  position: relative; /* permite ubicar el número respecto a cada proyecto */
-  padding-bottom: 2.5rem;
-}
-
-.project:last-child {
-  padding-bottom: 0;
-}
-
-/* El círculo con el número, centrado sobre la línea vertical */
-.project-number {
-  position: absolute;
-  top: -0.25rem;
-  left: calc(-3.75rem - 1px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  border: 2px solid var(--color-line);
-  border-radius: 50%;
-  background-color: var(--color-surface);
-  color: var(--color-text-muted);
-  font-weight: 700;
-}
-
-.project-header {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem 0.75rem;
-  margin-bottom: 0.5rem;
-}
-
-.project-header h3 {
-  margin: 0;
-  font-size: 1.25rem;
-}
-
-.project p {
-  margin-bottom: 0.25rem;
-  color: var(--color-text-muted);
-}
-
-.project .tech {
-  font-size: 0.95rem;
-}
-
-.project .tech strong {
+.summary-name {
   font-weight: 600;
-  color: var(--color-text);
 }
 
-/* Etiqueta de estado (por defecto: "Planificado", en gris) */
-.status {
-  padding: 0.125rem 0.625rem;
+.summary-value {
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Fondo gris de la barra */
+.summary-bar {
+  height: 0.625rem;
+  overflow: hidden;
   border-radius: 999px;
   background-color: var(--color-bg);
-  color: var(--color-text-muted);
-  font-size: 0.875rem;
-  font-weight: 600;
 }
 
-/* Proyecto terminado: verde azulado */
-.project-done .project-number {
-  border-color: var(--color-accent);
+/* Parte coloreada: JavaScript define su ancho (width) según el porcentaje */
+.summary-fill {
+  height: 100%;
+  border-radius: 999px;
   background-color: var(--color-accent);
-  color: #ffffff;
-}
-
-.project-done .status {
-  background-color: var(--color-accent-soft);
-  color: var(--color-accent);
-}
-
-/* Proyecto siguiente: ámbar */
-.project-next .project-number {
-  border-color: var(--color-next);
-  color: var(--color-next);
-}
-
-.project-next .status {
-  background-color: var(--color-next-soft);
-  color: var(--color-next);
 }
 
 /* ==========================================================
-   8. CONTACTO
+   7. HISTORIAL
    ========================================================== */
-.contact-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem 2rem;
-  margin: 1.5rem 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.contact-list a {
-  font-weight: 600;
-  overflow-wrap: anywhere; /* evita que el correo se salga en celulares */
-}
-
-/* ==========================================================
-   9. PIE DE PÁGINA
-   ========================================================== */
-.site-footer {
-  padding: 2rem 0;
+.expense-item {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  padding: 0.875rem 0;
   border-top: 1px solid var(--color-line);
-  color: var(--color-text-muted);
-  font-size: 0.95rem;
 }
 
-.site-footer p {
+.expense-item:first-child {
+  padding-top: 0;
+  border-top: none;
+}
+
+.expense-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.expense-description {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.expense-meta {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.expense-amount {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.delete-button {
+  padding: 0.375rem 0.625rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  background-color: transparent;
+  color: var(--color-text-muted);
+  font: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+}
+
+/* ==========================================================
+   8. PIE DE PÁGINA
+   ========================================================== */
+.app-footer {
+  padding-bottom: 2rem;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.app-footer p {
   margin: 0;
 }
 
 /* ==========================================================
-   10. CELULARES: menos espacio vertical en pantallas pequeñas
+   9. CELULARES
    ========================================================== */
-@media (max-width: 480px) {
-  .hero {
-    padding: 3rem 0 2.5rem;
+@media (max-width: 600px) {
+  .total-box {
+    text-align: left;
   }
 
-  .section {
-    padding: 3rem 0;
+  /* El botón Eliminar baja a una segunda fila */
+  .expense-item {
+    grid-template-columns: 1fr auto;
+  }
+
+  .delete-button {
+    grid-column: 2;
+    justify-self: end;
   }
 }
