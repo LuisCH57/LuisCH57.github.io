@@ -336,7 +336,66 @@ select:focus {
 }
 
 /* ==========================================================
-   8. PIE DE PÁGINA
+   8. CONVERSIÓN DE MONEDA (nuevo en la etapa 2)
+   ========================================================== */
+.stack {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.converted-amount {
+  display: block;
+  font-size: 1.75rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.rate-info {
+  margin: 0.25rem 0 0;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.converter-status {
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+/* Cuando hay un error, JavaScript agrega la clase "is-error" */
+.converter-status.is-error {
+  font-weight: 500;
+  color: var(--color-danger);
+}
+
+.button-secondary {
+  margin-top: 0.75rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-text);
+  border-radius: var(--radius);
+  background-color: transparent;
+  color: var(--color-text);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.button-secondary:hover {
+  background-color: var(--color-text);
+  color: var(--color-surface);
+}
+
+.attribution {
+  margin: 1rem 0 0;
+  font-size: 0.8rem;
+}
+
+.attribution a {
+  color: var(--color-text-muted);
+}
+
+/* ==========================================================
+   9. PIE DE PÁGINA
    ========================================================== */
 .app-footer {
   padding-bottom: 2rem;
@@ -349,7 +408,7 @@ select:focus {
 }
 
 /* ==========================================================
-   9. CELULARES
+   10. CELULARES
    ========================================================== */
 @media (max-width: 600px) {
   .total-box {

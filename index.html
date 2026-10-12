@@ -72,13 +72,49 @@
       </form>
     </section>
 
-    <!-- ========== RESUMEN POR CATEGORÍA ========== -->
-    <section class="panel" aria-labelledby="summary-title">
-      <h2 id="summary-title">Por categoría</h2>
-      <!-- Esta lista la llena JavaScript -->
-      <ul id="category-summary" class="category-summary"></ul>
-      <p id="summary-empty" class="empty">Cuando registres gastos, aquí verás en qué categoría gastas más.</p>
-    </section>
+    <!-- Columna derecha: dos paneles apilados -->
+    <div class="stack">
+
+      <!-- ========== RESUMEN POR CATEGORÍA ========== -->
+      <section class="panel" aria-labelledby="summary-title">
+        <h2 id="summary-title">Por categoría</h2>
+        <!-- Esta lista la llena JavaScript -->
+        <ul id="category-summary" class="category-summary"></ul>
+        <p id="summary-empty" class="empty">Cuando registres gastos, aquí verás en qué categoría gastas más.</p>
+      </section>
+
+      <!-- ========== CONVERSIÓN DE MONEDA (NUEVO) ========== -->
+      <section class="panel" aria-labelledby="converter-title">
+        <h2 id="converter-title">Total en otra moneda</h2>
+
+        <div class="field">
+          <label for="currency">Moneda</label>
+          <select id="currency">
+            <option value="USD">Dólar estadounidense (USD)</option>
+            <option value="EUR">Euro (EUR)</option>
+            <option value="CLP">Peso chileno (CLP)</option>
+            <option value="COP">Peso colombiano (COP)</option>
+            <option value="MXN">Peso mexicano (MXN)</option>
+            <option value="BRL">Real brasileño (BRL)</option>
+            <option value="ARS">Peso argentino (ARS)</option>
+          </select>
+        </div>
+
+        <!-- JavaScript escribe aquí el total convertido y el tipo de cambio -->
+        <strong id="converted-amount" class="converted-amount">-</strong>
+        <p id="rate-info" class="rate-info"></p>
+
+        <!-- Mensajes de "cargando" o de error -->
+        <p id="converter-status" class="converter-status" role="status"></p>
+        <button id="retry-button" type="button" class="button-secondary" hidden>Reintentar</button>
+
+        <!-- La API pide este enlace como condición de uso gratuito -->
+        <p class="attribution">
+          <a href="https://www.exchangerate-api.com" target="_blank" rel="noopener">Rates By Exchange Rate API</a>
+        </p>
+      </section>
+
+    </div>
 
     <!-- ========== HISTORIAL ========== -->
     <section class="panel panel-wide" aria-labelledby="list-title">

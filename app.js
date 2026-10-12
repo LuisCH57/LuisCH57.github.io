@@ -106,6 +106,7 @@ function render() {
   renderTotal();
   renderList();
   renderSummary();
+  renderConversion(); // nuevo: el total convertido también cambia
 }
 
 function renderTotal() {
@@ -288,7 +289,126 @@ form.addEventListener("submit", (event) => {
 });
 
 // ==========================================================
-// 8. INICIO: lo que se ejecuta al abrir la página
+// 8. CONVERSIÓN DE MONEDA CON UNA API EXTERNA (nuevo)
+// ==========================================================
+
+// Dirección de la API: devuelve cuánto vale 1 sol (PEN) en otras monedas
+const RATES_URL = "https://open.er-api.com/v6/latest/PEN";
+const RATES_KEY = "control-gastos:rates";
+
+const currencySelect = document.getElementById("currency");
+const convertedAmount = document.getElementById("converted-amount");
+const rateInfo = document.getElementById("rate-info");
+const converterStatus = document.getElementById("converter-status");
+const retryButton = document.getElementById("retry-button");
+
+// Tipos de cambio en memoria. Forma:
+// { values: { USD: 0.29, EUR: 0.26, ... }, updatedAt: 1791000000, nextUpdate: 1791086400 }
+let rates = null;
+
+// Muestra un mensaje de estado. isError = true lo pinta de rojo.
+function showConverterStatus(message, isError) {
+  converterStatus.textContent = message;
+  converterStatus.classList.toggle("is-error", isError);
+}
+
+// Devuelve los tipos de cambio guardados, solo si todavía están vigentes
+function loadCachedRates() {
+  const saved = localStorage.getItem(RATES_KEY);
+  if (saved === null) {
+    return null;
+  }
+
+  try {
+    const cached = JSON.parse(saved);
+    const nowInSeconds = Date.now() / 1000;
+    if (nowInSeconds < cached.nextUpdate) {
+      return cached; // todavía no hay datos nuevos en la API
+    }
+  } catch (error) {
+    console.error("Tipos de cambio guardados dañados:", error);
+  }
+  return null;
+}
+
+// Pide los tipos de cambio a la API por internet
+async function fetchRates() {
+  showConverterStatus("Cargando tipos de cambio...", false);
+  retryButton.hidden = true;
+
+  try {
+    // 1. Hacer la petición HTTP y ESPERAR la respuesta (await)
+    const response = await fetch(RATES_URL);
+
+    // 2. Revisar el código de estado HTTP (200 = todo bien)
+    if (!response.ok) {
+      throw new Error(`La API respondió con el código ${response.status}`);
+    }
+
+    // 3. Convertir el cuerpo de la respuesta (JSON) en un objeto
+    const data = await response.json();
+    if (data.result !== "success") {
+      throw new Error("La API no pudo entregar los tipos de cambio");
+    }
+
+    // 4. Guardar solo lo que necesitamos, en memoria y en localStorage
+    rates = {
+      values: data.rates,
+      updatedAt: data.time_last_update_unix,
+      nextUpdate: data.time_next_update_unix,
+    };
+    localStorage.setItem(RATES_KEY, JSON.stringify(rates));
+
+    showConverterStatus("", false);
+    renderConversion();
+  } catch (error) {
+    // Llega aquí si no hay internet, si la API falla o si hubo un throw
+    console.error("Error al obtener los tipos de cambio:", error);
+    showConverterStatus("No se pudieron cargar los tipos de cambio. Revisa tu conexión e inténtalo de nuevo.", true);
+    retryButton.hidden = false;
+  }
+}
+
+// Dibuja el total convertido a la moneda elegida
+function renderConversion() {
+  if (rates === null) {
+    return; // todavía no tenemos tipos de cambio
+  }
+
+  const currency = currencySelect.value; // por ejemplo "USD"
+  const rate = rates.values[currency];   // por ejemplo 0.2912
+
+  const totalInSoles = getTotalCents() / 100;
+  const converted = totalInSoles * rate;
+
+  const formatter = new Intl.NumberFormat("es-PE", {
+    style: "currency",
+    currency: currency,
+  });
+  convertedAmount.textContent = formatter.format(converted);
+
+  const updated = new Date(rates.updatedAt * 1000).toLocaleDateString("es-PE", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+  rateInfo.textContent = `1 sol = ${rate.toFixed(4)} ${currency}. Tipo de cambio del ${updated}.`;
+}
+
+// Eventos del conversor
+currencySelect.addEventListener("change", renderConversion);
+retryButton.addEventListener("click", fetchRates);
+
+// ==========================================================
+// 9. INICIO: lo que se ejecuta al abrir la página
 // ==========================================================
 dateInput.value = getTodayISO();
 render();
+
+// Usar los tipos de cambio guardados si siguen vigentes; si no, pedirlos a la API
+rates = loadCachedRates();
+if (rates !== null) {
+  renderConversion();
+} else {
+  fetchRates();
+}
