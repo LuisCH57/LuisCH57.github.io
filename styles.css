@@ -393,3 +393,17 @@ a:focus-visible {
     padding: 3rem 0;
   }
 }
+
+/* ==========================================================
+   11. ENLACES DE CADA PROYECTO (demo y código)
+   ========================================================== */
+.project .project-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+  margin-top: 0.5rem;
+}
+
+.project-links a {
+  font-weight: 600;
+}
